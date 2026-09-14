@@ -1,22 +1,24 @@
 /**
  * ============================================================================
- *  CATÁLOGO DE PRODUCTOS ARCO
+ *  CATÁLOGO DE PRODUCTOS ARCO — THERMOBUS
  * ============================================================================
  *
- *  Fuente de los datos técnicos: fichas publicadas por ARCO Climatização
- *  (arcoclima.com.br), consultadas en septiembre de 2026.
+ *  Fuente única: ficha comercial oficial de ARCO Climatização / Thermobus
+ *  ("Línea de aire acondicionado", tecnología brasileña).
  *
- *  IMPORTANTE ANTES DE PUBLICAR:
- *  Confirmar con ARCO que estas fichas son las vigentes para exportación a
- *  Colombia. Los campos vacíos ("") simplemente no se renderizan.
+ *  Todos los datos técnicos de este archivo salen de esa ficha. No se mezcla
+ *  con otras fuentes: si algún dato falta, se deja vacío ("") y simplemente
+ *  no se renderiza, en vez de rellenarlo por aproximación.
+ *
+ *  Las imágenes están en /public/productos/<slug>.png
  *
  *  Esta estructura está pensada para migrar a un CMS sin tocar componentes:
- *  basta reemplazar el `export const productos` por un fetch que devuelva el
+ *  basta reemplazar `export const productos` por un fetch que devuelva el
  *  mismo tipo `Producto[]`.
  * ============================================================================
  */
 
-export type LineaId = "urbano" | "intermunicipal" | "microbus";
+export type LineaId = "urbano" | "electrico" | "articulado" | "microbus";
 
 export interface Linea {
   id: LineaId;
@@ -26,423 +28,294 @@ export interface Linea {
 }
 
 export interface Especificaciones {
-  refrigeracion: string;
-  calefaccion: string;
-  caudalEvaporador: string;
-  caudalCondensador: string;
+  capacidad: string;
+  caudal: string;
+  tension: string;
+  gas: string;
   dimensiones: string;
-  peso: string;
-  voltaje: string;
-  corriente: string;
-  compresor: string;
 }
 
 export interface Producto {
   slug: string;
   modelo: string;
-  titulo: string;
   descripcion: string;
-  pasajeros: number;
-  lineas: LineaId[];
-  tipo: "Techo" | "Split" | "Chasis" | "Eléctrico";
+  linea: LineaId;
+  /** BTU/h como número, para ordenar y comparar. */
+  btu: number;
   destacado?: boolean;
+  /** Nota adicional de la ficha, p. ej. "por módulo". */
+  nota?: string;
   specs: Especificaciones;
-  opcionales: string[];
 }
 
 export const lineas: Linea[] = [
   {
     id: "urbano",
-    nombre: "Urbano",
-    titulo: "Aire acondicionado para buses urbanos",
+    nombre: "Urbanos e interurbanos",
+    titulo: "Aire acondicionado para autobuses urbanos e interurbanos",
     descripcion:
-      "Equipos para operación urbana de alta frecuencia: puertas abriendo constantemente, paradas continuas y carga térmica variable. Incluye versiones exclusivas para articulados y biarticulados de sistemas BRT.",
+      "La línea de mayor capacidad para operación convencional: de 130.000 a 175.000 BTU/h, en 24V y refrigerante R134a. Cubre desde el bus urbano de alta frecuencia hasta la ruta interurbana de trayecto largo.",
   },
   {
-    id: "intermunicipal",
-    nombre: "Intermunicipal",
-    titulo: "Aire acondicionado para buses intermunicipales",
+    id: "electrico",
+    nombre: "Eléctricos",
+    titulo: "Aire acondicionado para autobús eléctrico urbano",
     descripcion:
-      "Alta performance térmica y display de manejo intuitivo para rutas largas. Incluye el sistema de climatización para buses de doble piso, con diseño compacto y módulos ocultos.",
+      "Equipos desarrollados para chasis eléctrico, con refrigerante R407c y consumo optimizado para no comprometer la autonomía de la batería.",
+  },
+  {
+    id: "articulado",
+    nombre: "Articulados",
+    titulo: "Aire acondicionado para autobús articulado y biarticulado",
+    descripcion:
+      "Sistemas modulares de 220.000 y 240.000 BTU/h para flotas BRT. Cada equipo se compone de dos módulos que climatizan el vehículo completo de forma equilibrada.",
   },
   {
     id: "microbus",
     nombre: "Microbús",
     titulo: "Aire acondicionado para microbuses y busetas",
     descripcion:
-      "Equipos compactos, livianos y de alta performance térmica, en versiones de techo y split. Cubren transporte convencional y escolar de 25 a 52 pasajeros.",
+      "Equipos compactos y livianos de 70.000 a 110.000 BTU/h, en versiones de techo y con condensador separado. Disponibles en 12V y 24V para transporte convencional, escolar y especial.",
   },
 ];
 
 export const productos: Producto[] = [
-  // ------------------------------------------------------- ARTICULADOS / BRT
+  // ------------------------------------------ URBANOS E INTERURBANOS
   {
-    slug: "a640",
-    modelo: "A640",
-    titulo: "A640 — A/C para bus articulado",
+    slug: "a450",
+    modelo: "A450",
     descripcion:
-      "Equipo de mayor capacidad de la línea, desarrollado para bus urbano articulado y biarticulado. Confort equilibrado para 80 pasajeros.",
-    pasajeros: 80,
-    lineas: ["urbano"],
-    tipo: "Techo",
+      "El equipo de mayor capacidad de la línea convencional. Pensado para autobuses de gran porte con alta carga térmica y operación continua.",
+    linea: "urbano",
+    btu: 175000,
     destacado: true,
     specs: {
-      refrigeracion: "240.000 BTU/h",
-      calefaccion: "240.000 BTU/h",
-      caudalEvaporador: "13.200 m³/h",
-      caudalCondensador: "17.400 m³/h",
-      dimensiones: "195 (A) × 1.860 (L) × 2.990 (C) mm",
-      peso: "292 kg",
-      voltaje: "12V / 24V",
-      corriente: "148 A",
-      compresor: "Bock / Bitzer 6NFCY",
+      capacidad: "175.000 Btu/h",
+      caudal: "8.800 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "199 × 1.850 × 3.550 mm",
     },
-    opcionales: ["Renovación de aire", "Defroster", "Ventilador electrónico"],
   },
-  {
-    slug: "a610",
-    modelo: "A610",
-    titulo: "A610 — A/C para bus articulado",
-    descripcion:
-      "Proyectado para bus urbano articulado y biarticulado. Confort equilibrado para 75 pasajeros.",
-    pasajeros: 75,
-    lineas: ["urbano"],
-    tipo: "Techo",
-    specs: {
-      refrigeracion: "220.000 BTU/h",
-      calefaccion: "135.000 BTU/h",
-      caudalEvaporador: "13.200 m³/h",
-      caudalCondensador: "8.700 m³/h",
-      dimensiones: "",
-      peso: "146 kg",
-      voltaje: "24V",
-      corriente: "80 A",
-      compresor: "Bitzer",
-    },
-    opcionales: ["Renovación de aire", "Defroster"],
-  },
-  {
-    slug: "a620",
-    modelo: "A620",
-    titulo: "A620 — A/C para bus articulado",
-    descripcion:
-      "Desarrollado para bus urbano articulado y biarticulado. Confort equilibrado para 80 pasajeros.",
-    pasajeros: 80,
-    lineas: ["urbano"],
-    tipo: "Techo",
-    // NOTA: ficha técnica pendiente de confirmar con ARCO. Los campos vacíos
-    // no se renderizan y la página muestra un CTA para solicitarla.
-    specs: {
-      refrigeracion: "",
-      calefaccion: "",
-      caudalEvaporador: "",
-      caudalCondensador: "",
-      dimensiones: "",
-      peso: "",
-      voltaje: "",
-      corriente: "",
-      compresor: "",
-    },
-    opcionales: [],
-  },
-
-  // ------------------------------------------------- DOBLE PISO / RODOVIARIO
-  {
-    slug: "a590-dd",
-    modelo: "A590 DD",
-    titulo: "A590 DD — A/C para bus de doble piso",
-    descripcion:
-      "Aire acondicionado split para bus de doble piso. Confort térmico ideal para hasta 70 pasajeros.",
-    pasajeros: 70,
-    lineas: ["intermunicipal"],
-    tipo: "Split",
-    destacado: true,
-    specs: {
-      refrigeracion: "205.000 BTU/h",
-      calefaccion: "150.000 BTU/h",
-      caudalEvaporador: "9.900 m³/h",
-      caudalCondensador: "14.500 m³/h",
-      dimensiones: "195 (A) × 1.860 (L) × 2.990 (C) mm",
-      peso: "250 kg",
-      voltaje: "12V / 24V",
-      corriente: "115 A",
-      compresor: "Bitzer",
-    },
-    opcionales: [
-      "Renovación de aire",
-      "Sistema de calefacción",
-      "Desempañador de vidrios",
-      "Ventilador electrónico",
-    ],
-  },
-
-  // ------------------------------------------------------ URBANO / RODOVIARIO
   {
     slug: "a380",
     modelo: "A380",
-    titulo: "A380 — Aire acondicionado para chasis",
     descripcion:
-      "Equipo para chasis con tecnología, desempeño y calidad ARCO. Confort térmico ideal para hasta 65 pasajeros.",
-    pasajeros: 65,
-    lineas: ["urbano", "intermunicipal"],
-    tipo: "Chasis",
+      "Alta capacidad con el mismo caudal de aire del A450 en un equipo de referencia para flotas urbanas e interurbanas exigentes.",
+    linea: "urbano",
+    btu: 155000,
     destacado: true,
     specs: {
-      refrigeracion: "155.000 BTU/h",
-      calefaccion: "",
-      caudalEvaporador: "8.800 m³/h",
-      caudalCondensador: "",
-      dimensiones: "199 (A) × 1.850 (L) × 3.550 (C) mm",
-      peso: "",
-      voltaje: "24V",
-      corriente: "88 A",
-      compresor: "Bitzer / Bock",
+      capacidad: "155.000 Btu/h",
+      caudal: "8.800 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "199 × 1.850 × 3.550 mm",
     },
-    opcionales: ["Compresores Bock o Bitzer", "Defroster", "Renovación de aire"],
   },
   {
     slug: "a370",
     modelo: "A370",
-    titulo: "A370 — Aire acondicionado de techo",
     descripcion:
-      "Dos velocidades en el evaporador, para mejor rendimiento y menor consumo de combustible. Confort térmico ideal para hasta 65 pasajeros.",
-    pasajeros: 65,
-    lineas: ["urbano", "intermunicipal"],
-    tipo: "Techo",
+      "Equilibrio entre capacidad y consumo para la operación diaria. Uno de los modelos de mayor rotación de la línea.",
+    linea: "urbano",
+    btu: 140000,
     specs: {
-      refrigeracion: "140.000 BTU/h",
-      calefaccion: "135.000 BTU/h",
-      caudalEvaporador: "6.600 m³/h",
-      caudalCondensador: "11.600 m³/h",
-      dimensiones: "195 (A) × 1.860 (L) × 2.990 (C) mm",
-      peso: "148 kg",
-      voltaje: "12V / 24V",
-      corriente: "88 A",
-      compresor: "QPS-65",
+      capacidad: "140.000 Btu/h",
+      caudal: "6.600 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "195 × 1.860 × 2.990 mm",
     },
-    opcionales: [
-      "Compresores Bock o Bitzer",
-      "Sistema de calefacción",
-      "Desempañador de vidrios",
-      "Renovación de aire",
-    ],
-  },
-  {
-    slug: "a370-electrico",
-    modelo: "A370 Eléctrico",
-    titulo: "A370 Eléctrico — A/C para chasis eléctrico",
-    descripcion:
-      "Versión para chasis eléctrico. Confort térmico ideal para hasta 65 pasajeros, con compresor/convertidor de alta tensión.",
-    pasajeros: 65,
-    lineas: ["urbano", "intermunicipal"],
-    tipo: "Eléctrico",
-    destacado: true,
-    specs: {
-      refrigeracion: "110.000 BTU/h (32 kW)",
-      calefaccion: "",
-      caudalEvaporador: "6.600 m³/h",
-      caudalCondensador: "11.600 m³/h",
-      dimensiones: "195 (A) × 1.860 (L) × 3.326 (C) mm",
-      peso: "192 kg",
-      voltaje: "24V — compresor/convertidor 400–750 Vdc",
-      corriente: "88 A (compresor/convertidor 32 A)",
-      compresor: "Compresor / convertidor de alta tensión",
-    },
-    opcionales: ["Gas refrigerante R407C"],
   },
   {
     slug: "a340",
     modelo: "A340",
-    titulo: "A340 — Aire acondicionado de techo",
     descripcion:
-      "Desarrollado para bus urbano e intermunicipal. Tres ventiladores de alta performance para equalizar la temperatura para hasta 55 pasajeros.",
-    pasajeros: 55,
-    lineas: ["urbano", "intermunicipal"],
-    tipo: "Techo",
+      "La opción de entrada de la línea convencional, para vehículos de menor carga térmica sin resignar desempeño.",
+    linea: "urbano",
+    btu: 130000,
     specs: {
-      refrigeracion: "130.000 BTU/h",
-      calefaccion: "130.000 BTU/h",
-      caudalEvaporador: "6.600 m³/h",
-      caudalCondensador: "8.700 m³/h",
-      dimensiones: "195 (A) × 1.860 (L) × 2.990 (C) mm",
-      peso: "146 kg",
-      voltaje: "12V / 24V",
-      corriente: "80 A",
-      compresor: "QPS-65",
+      capacidad: "130.000 Btu/h",
+      caudal: "6.600 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "195 × 1.860 × 2.990 mm",
     },
-    opcionales: [
-      "Compresor Bock o Bitzer",
-      "Sistema de calefacción",
-      "Desempañador de vidrios",
-      "Renovación de aire",
-    ],
   },
 
-  // ------------------------------------------------------------- MICROBUSES
+  // --------------------------------------------------- ELÉCTRICOS
+  {
+    slug: "a370-electrico",
+    modelo: "A370 Eléctrico",
+    descripcion:
+      "Versión para chasis eléctrico urbano, con refrigerante R407c y el caudal de aire de la línea A370.",
+    linea: "electrico",
+    btu: 110000,
+    destacado: true,
+    specs: {
+      capacidad: "110.000 Btu/h",
+      caudal: "6.600 m³/h",
+      tension: "24V",
+      gas: "R407c",
+      dimensiones: "195 × 1.860 × 3.326 mm",
+    },
+  },
+  {
+    slug: "a260-electrico",
+    modelo: "A260 Eléctrico",
+    descripcion:
+      "Equipo compacto para chasis eléctrico de menor porte, con refrigerante R407c y condensador integrado.",
+    linea: "electrico",
+    btu: 90000,
+    specs: {
+      capacidad: "90.000 Btu/h",
+      caudal: "4.400 m³/h",
+      tension: "24V",
+      gas: "R407c",
+      dimensiones: "200 × 1.550 × 2.653 mm",
+    },
+  },
+
+  // -------------------------------------------------- ARTICULADOS
+  {
+    slug: "a640",
+    modelo: "A640",
+    descripcion:
+      "Sistema modular de máxima capacidad para articulados y biarticulados. Climatiza el vehículo completo de forma equilibrada en toda su longitud.",
+    linea: "articulado",
+    btu: 240000,
+    destacado: true,
+    nota: "Dimensiones por módulo",
+    specs: {
+      capacidad: "240.000 Btu/h",
+      caudal: "13.200 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "195 × 1.860 × 2.990 mm",
+    },
+  },
+  {
+    slug: "a620",
+    modelo: "A620",
+    descripcion:
+      "Sistema modular para articulados y biarticulados, con el mismo caudal de aire del A640 en una capacidad ajustada a flotas de recorrido medio.",
+    linea: "articulado",
+    btu: 220000,
+    nota: "Dimensiones por módulo",
+    specs: {
+      capacidad: "220.000 Btu/h",
+      caudal: "13.200 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "195 × 1.860 × 2.990 mm",
+    },
+  },
+
+  // ----------------------------------------------------- MICROBÚS
   {
     slug: "a290",
     modelo: "A290",
-    titulo: "A290 — A/C de techo para microbús",
-    descripcion: "Aire acondicionado de techo, confort ideal para 52 pasajeros.",
-    pasajeros: 52,
-    lineas: ["microbus"],
-    tipo: "Techo",
+    descripcion:
+      "El equipo de mayor capacidad de la línea microbús, para vehículos midi de recorrido urbano e interurbano.",
+    linea: "microbus",
+    btu: 110000,
     destacado: true,
     specs: {
-      refrigeracion: "110.000 BTU/h",
-      calefaccion: "",
-      caudalEvaporador: "4.400 m³/h",
-      caudalCondensador: "4 un. — 9.240 m³/h",
-      dimensiones: "200 (A) × 1.550 (L) × 2.350 (C) mm",
-      peso: "98 kg",
-      voltaje: "12V / 24V",
-      corriente: "",
-      compresor: "QPS43 / 430 cm³",
+      capacidad: "110.000 Btu/h",
+      caudal: "4.400 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "200 × 1.550 × 2.350 mm",
     },
-    opcionales: ["Sistema de calefacción", "Desempañador de vidrios", "Renovación de aire"],
   },
   {
-    slug: "a260t",
-    modelo: "A260T",
-    titulo: "A260T — A/C de techo para bus midi",
-    descripcion: "Aire acondicionado para bus midi, confort ideal para 45 pasajeros.",
-    pasajeros: 45,
-    lineas: ["microbus"],
-    tipo: "Techo",
+    slug: "a260",
+    modelo: "A260",
+    descripcion:
+      "Equipo de techo para microbús y bus midi, con el mismo formato del A290 en una capacidad más ajustada.",
+    linea: "microbus",
+    btu: 100000,
     specs: {
-      refrigeracion: "100.000 BTU/h",
-      calefaccion: "74.000 BTU/h",
-      caudalEvaporador: "4.400 m³/h",
-      caudalCondensador: "5.800 m³/h",
-      dimensiones: "200 (A) × 1.550 (L) × 2.350 (C) mm",
-      peso: "88 kg",
-      voltaje: "12V / 24V",
-      corriente: "50 A",
-      compresor: "TCCI — QP 31",
+      capacidad: "100.000 Btu/h",
+      caudal: "4.400 m³/h",
+      tension: "24V",
+      gas: "R134a",
+      dimensiones: "200 × 1.550 × 2.350 mm",
     },
-    opcionales: ["Renovación de aire", "Sistema de calefacción", "Defroster"],
   },
   {
     slug: "a250t",
     modelo: "A250T",
-    titulo: "A250T — A/C de techo para microbús",
     descripcion:
-      "Desarrollado para microbús urbano e intermunicipal, confort equalizado para 45 pasajeros.",
-    pasajeros: 45,
-    lineas: ["microbus"],
-    tipo: "Techo",
+      "Equipo de techo compacto disponible en 12V y 24V, para microbús urbano e interurbano.",
+    linea: "microbus",
+    btu: 90000,
     specs: {
-      refrigeracion: "90.000 BTU/h",
-      calefaccion: "",
-      caudalEvaporador: "4.400 m³/h",
-      caudalCondensador: "5.800 m³/h",
-      dimensiones: "199 (A) × 1.210 (L) × 2.250 (C) mm",
-      peso: "80 kg",
-      voltaje: "12V / 24V",
-      corriente: "48 A",
-      compresor: "TCCI — QP 31",
+      capacidad: "90.000 Btu/h",
+      caudal: "4.400 m³/h",
+      tension: "12V y 24V",
+      gas: "R134a",
+      dimensiones: "199 × 1.210 × 2.250 mm",
     },
-    opcionales: ["Renovación de aire", "Defroster"],
-  },
-  {
-    slug: "a250-ct",
-    modelo: "A250 CT",
-    titulo: "A250 CT — A/C split para microbús",
-    descripcion: "Aire acondicionado split para microbús, confort ideal para 36 pasajeros.",
-    pasajeros: 36,
-    lineas: ["microbus"],
-    tipo: "Split",
-    specs: {
-      refrigeracion: "80.000 BTU/h",
-      calefaccion: "",
-      caudalEvaporador: "3.300 m³/h",
-      caudalCondensador: "5.800 m³/h",
-      dimensiones: "195 (A) × 1.205 (L) × 1.115 (C) mm",
-      peso: "75 kg",
-      voltaje: "12V / 24V",
-      corriente: "45 A",
-      compresor: "QP 31",
-    },
-    opcionales: ["Renovación de aire", "Calefacción"],
   },
   {
     slug: "a210t",
     modelo: "A210T",
-    titulo: "A210T — A/C de techo para microbús",
-    descripcion: "Aire acondicionado de techo, confort térmico ideal para 29 pasajeros.",
-    pasajeros: 29,
-    lineas: ["microbus"],
-    tipo: "Techo",
-    specs: {
-      refrigeracion: "75.000 BTU/h",
-      calefaccion: "74.000 BTU/h",
-      caudalEvaporador: "4.400 m³/h",
-      caudalCondensador: "5.800 m³/h",
-      dimensiones: "199 (A) × 1.210 (L) × 2.250 (C) mm",
-      peso: "80 kg",
-      voltaje: "12V / 24V",
-      corriente: "48 A",
-      compresor: "TCCI — QP 21",
-    },
-    opcionales: [],
-  },
-  {
-    slug: "a210-ct",
-    modelo: "A210 CT",
-    titulo: "A210 CT — A/C split para microbús",
-    descripcion: "Aire acondicionado split para microbús, confort ideal para 29 pasajeros.",
-    pasajeros: 29,
-    lineas: ["microbus"],
-    tipo: "Split",
-    specs: {
-      refrigeracion: "70.000 BTU/h",
-      calefaccion: "",
-      caudalEvaporador: "3.300 m³/h",
-      caudalCondensador: "5.800 m³/h",
-      dimensiones: "195 (A) × 1.205 (L) × 1.115 (C) mm",
-      peso: "75 kg",
-      voltaje: "12V / 24V",
-      corriente: "45 A",
-      compresor: "QP 21",
-    },
-    opcionales: [],
-  },
-  {
-    slug: "a190-ct",
-    modelo: "A190 CT",
-    titulo: "A190 CT — A/C split para microbús",
     descripcion:
-      "Aire acondicionado split para microbús, confort ideal para 25 pasajeros. Ideal para transporte escolar y especial.",
-    pasajeros: 25,
-    lineas: ["microbus"],
-    tipo: "Split",
+      "El equipo de techo más liviano de la línea, para microbuses de menor porte y transporte escolar.",
+    linea: "microbus",
+    btu: 75000,
     specs: {
-      refrigeracion: "60.000 BTU/h",
-      calefaccion: "",
-      caudalEvaporador: "2.200 m³/h",
-      caudalCondensador: "5.800 m³/h",
-      dimensiones: "195 (A) × 1.860 (L) × 2.990 (C) mm",
-      peso: "60 kg",
-      voltaje: "12V / 24V",
-      corriente: "40 A",
-      compresor: "QP 21",
+      capacidad: "75.000 Btu/h",
+      caudal: "4.400 m³/h",
+      tension: "12V y 24V",
+      gas: "R134a",
+      dimensiones: "199 × 1.210 × 2.250 mm",
     },
-    opcionales: [],
+  },
+  {
+    slug: "a250ct",
+    modelo: "A250CT",
+    descripcion:
+      "Versión con condensador separado, para vehículos donde el espacio en el techo es limitado o la altura total es una restricción.",
+    linea: "microbus",
+    btu: 80000,
+    nota: "Dimensiones del condensador",
+    specs: {
+      capacidad: "80.000 Btu/h",
+      caudal: "3.300 m³/h",
+      tension: "12V y 24V",
+      gas: "R134a",
+      dimensiones: "195 × 1.205 × 1.115 mm",
+    },
+  },
+  {
+    slug: "a210ct",
+    modelo: "A210CT",
+    descripcion:
+      "La configuración más compacta del catálogo, con condensador separado, para busetas y transporte especial.",
+    linea: "microbus",
+    btu: 70000,
+    nota: "Dimensiones del condensador",
+    specs: {
+      capacidad: "70.000 Btu/h",
+      caudal: "3.300 m³/h",
+      tension: "12V y 24V",
+      gas: "R134a",
+      dimensiones: "195 × 1.205 × 1.115 mm",
+    },
   },
 ];
 
 // --------------------------------------------------------------- Utilidades
 
 export const etiquetasSpecs: Record<keyof Especificaciones, string> = {
-  refrigeracion: "Capacidad de refrigeración",
-  calefaccion: "Capacidad de calefacción",
-  caudalEvaporador: "Caudal de aire — evaporador",
-  caudalCondensador: "Caudal de aire — condensador",
-  dimensiones: "Dimensiones",
-  peso: "Peso",
-  voltaje: "Voltaje",
-  corriente: "Corriente",
-  compresor: "Compresor",
+  capacidad: "Capacidad",
+  caudal: "Caudal de aire",
+  tension: "Tensión",
+  gas: "Gas refrigerante",
+  dimensiones: "Dimensiones (A × L × C)",
 };
 
 export function getProducto(slug: string): Producto | undefined {
@@ -450,7 +323,7 @@ export function getProducto(slug: string): Producto | undefined {
 }
 
 export function productosPorLinea(linea: LineaId): Producto[] {
-  return productos.filter((p) => p.lineas.includes(linea));
+  return productos.filter((p) => p.linea === linea);
 }
 
 export function getLinea(id: string): Linea | undefined {
@@ -463,3 +336,9 @@ export function specsConValor(p: Producto): [string, string][] {
     .filter((k) => p.specs[k].trim() !== "")
     .map((k) => [etiquetasSpecs[k], p.specs[k]]);
 }
+
+/** Rango de capacidad del catálogo, para los textos de la home. */
+export const rangoBtu = {
+  min: Math.min(...productos.map((p) => p.btu)),
+  max: Math.max(...productos.map((p) => p.btu)),
+};

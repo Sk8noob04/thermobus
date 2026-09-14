@@ -23,8 +23,8 @@ export default function Productos() {
             Aire acondicionado ARCO para transporte de pasajeros
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-marca-200">
-            De 60.000 a 240.000 BTU/h. Equipos de techo, split y para chasis
-            eléctrico, en 12V y 24V.
+            De 70.000 a 240.000 BTU/h. Equipos de techo, con condensador separado y
+            para chasis eléctrico, en 12V y 24V.
           </p>
 
           <nav className="mt-9 flex flex-wrap gap-2" aria-label="Líneas de producto">

@@ -37,7 +37,7 @@ export default function Header() {
       <div className="border-b border-marca-900/10 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
           <Link href="/" className="shrink-0" aria-label={`${site.nombre} — inicio`}>
-            <Logo className="h-9 w-auto" />
+            <Logo className="h-9 w-auto" priority />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
 import { lineas, productos, productosPorLinea } from "@/content/products";
@@ -45,9 +46,9 @@ export default function Home() {
         <div className="border-t border-white/10 bg-marca-950/60 backdrop-blur">
           <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-px px-4 py-8 sm:grid-cols-4">
             {[
-              { k: "60k – 240k", v: "BTU/h de capacidad" },
+              { k: "70k – 240k", v: "BTU/h de capacidad" },
               { k: `${productos.length}`, v: "modelos disponibles" },
-              { k: "25 – 80", v: "pasajeros por equipo" },
+              { k: "4", v: "líneas de aplicación" },
               { k: "12V / 24V", v: "y chasis eléctrico" },
             ].map((item) => (
               <div key={item.v}>
@@ -89,27 +90,33 @@ export default function Home() {
           titulo="Un equipo para cada tipo de operación"
           descripcion="Seleccionamos el modelo según el chasis, la carrocería, el número de pasajeros y las condiciones de la ruta."
         />
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {lineas.map((linea) => {
-            const cantidad = productosPorLinea(linea.id).length;
+            const items = productosPorLinea(linea.id);
             return (
               <Link
                 key={linea.id}
                 href={`/productos#${linea.id}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all hover:-translate-y-0.5 hover:border-marca-300 hover:shadow-lg"
               >
-                <div className="placeholder-tecnico flex aspect-21/9 items-center justify-center">
-                  <Icono nombre="bus" className="h-12 w-12 text-white/25" />
+                <div className="relative aspect-16/9 bg-gradient-to-br from-marca-50 to-hielo-300/25">
+                  <Image
+                    src={`/productos/${items[0].slug}.png`}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-contain p-3"
+                  />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="text-xl font-semibold text-marca-900 group-hover:text-marca-700">
+                  <h3 className="text-lg font-semibold text-marca-900 group-hover:text-marca-700">
                     {linea.nombre}
                   </h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
                     {linea.descripcion}
                   </p>
                   <p className="mt-4 text-sm font-semibold text-marca-700">
-                    {cantidad} modelos →
+                    {items.length} {items.length === 1 ? "modelo" : "modelos"} →
                   </p>
                 </div>
               </Link>

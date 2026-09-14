@@ -17,7 +17,7 @@ export const site = {
   nombreLegal: "Thermobus S.A.S.", // <<< COMPLETAR razón social real
   tagline: "Representantes de ARCO Climatização en Colombia",
   descripcion:
-    "Aire acondicionado para buses urbanos, intermunicipales y microbuses. Representación oficial en Colombia de ARCO Climatização (Brasil).",
+    "Aire acondicionado para autobuses urbanos, interurbanos, articulados, eléctricos y microbuses. Representación oficial en Colombia de ARCO Climatização (Brasil).",
 
   // URL final del sitio (sin slash al final). Se usa para SEO y sitemap.
   url: "https://www.thermobus.com.co", // <<< COMPLETAR con tu dominio real
@@ -65,21 +65,21 @@ export const site = {
       icono: "shield",
     },
     {
-      titulo: "Línea completa",
+      titulo: "Soluciones eficientes",
       texto:
-        "Desde 60.000 hasta 240.000 BTU/h. Microbús, urbano, intermunicipal, articulado, biarticulado, doble piso y chasis eléctrico.",
-      icono: "grid",
-    },
-    {
-      titulo: "Ingeniería aplicada",
-      texto:
-        "Seleccionamos el equipo según chasis, carrocería, número de pasajeros y ruta. No vendemos catálogo: dimensionamos la solución.",
+        "Cada componente está diseñado a la medida del vehículo, garantizando integración, eficiencia y confiabilidad.",
       icono: "gauge",
     },
     {
-      titulo: "Soporte en Colombia",
+      titulo: "Mayor seguridad",
       texto:
-        "Acompañamiento en instalación, puesta en marcha y repuestos, con canal directo a la ingeniería de fábrica en Brasil.",
+        "Equipos fabricados en Brasil bajo estándares nacionales e internacionales, con componentes de marcas reconocidas.",
+      icono: "grid",
+    },
+    {
+      titulo: "Alto rendimiento",
+      texto:
+        "De 70.000 a 240.000 BTU/h, en 12V y 24V, para microbús, urbano, interurbano, articulado y chasis eléctrico.",
       icono: "wrench",
     },
   ],
@@ -114,9 +114,9 @@ export const site = {
 
   // -------------------------------------------------------------------- Hero
   hero: {
-    titulo: "Confort térmico para cada pasajero, en cada kilómetro",
+    titulo: "Tecnología brasileña en movimiento",
     subtitulo:
-      "Aire acondicionado ARCO para buses urbanos, intermunicipales y microbuses. Representación oficial en Colombia.",
+      "Aire acondicionado ARCO para autobuses urbanos, interurbanos, articulados, eléctricos y microbuses. Representación oficial en Colombia.",
     ctaPrimario: { texto: "Ver líneas de producto", href: "/productos" },
     ctaSecundario: { texto: "Solicitar cotización", href: "/contacto" },
   },

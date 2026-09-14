@@ -1,23 +1,21 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Producto } from "@/content/products";
-import { Icono } from "./ui";
 
 export default function ProductCard({ producto }: { producto: Producto }) {
-  const btu = producto.specs.refrigeracion;
-
   return (
     <Link
       href={`/productos/${producto.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all hover:-translate-y-0.5 hover:border-marca-300 hover:shadow-lg"
     >
-      {/* Imagen — placeholder hasta recibir el material oficial de ARCO.
-          Para reemplazar: colocar la foto en /public/productos/<slug>.jpg
-          y sustituir este div por <Image src={...} .../> */}
-      <div className="placeholder-tecnico relative flex aspect-16/10 items-center justify-center">
-        <Icono nombre="bus" className="h-14 w-14 text-white/25" />
-        <span className="absolute top-3 left-3 rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white/80 backdrop-blur">
-          {producto.tipo}
-        </span>
+      <div className="relative aspect-16/9 overflow-hidden bg-gradient-to-br from-marca-50 to-hielo-300/25">
+        <Image
+          src={`/productos/${producto.slug}.png`}
+          alt={`Aire acondicionado ARCO ${producto.modelo}`}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.04]"
+        />
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -29,15 +27,15 @@ export default function ProductCard({ producto }: { producto: Producto }) {
         </p>
 
         <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-4 text-sm">
-          {btu && (
-            <div>
-              <dt className="text-xs text-slate-500">Refrigeración</dt>
-              <dd className="font-semibold text-marca-900">{btu}</dd>
-            </div>
-          )}
           <div>
-            <dt className="text-xs text-slate-500">Pasajeros</dt>
-            <dd className="font-semibold text-marca-900">hasta {producto.pasajeros}</dd>
+            <dt className="text-xs text-slate-500">Capacidad</dt>
+            <dd className="font-semibold text-marca-900 tabular-nums">
+              {producto.specs.capacidad}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-slate-500">Tensión</dt>
+            <dd className="font-semibold text-marca-900">{producto.specs.tension}</dd>
           </div>
         </dl>
 

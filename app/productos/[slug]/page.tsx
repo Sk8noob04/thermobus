@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -9,7 +10,7 @@ import {
   type Producto,
 } from "@/content/products";
 import { site, whatsappLink } from "@/content/site";
-import { Boton, Icono } from "@/components/ui";
+import { Boton } from "@/components/ui";
 import CtaFinal from "@/components/CtaFinal";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -23,11 +24,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = getProducto(slug);
   if (!p) return { title: "Producto no encontrado" };
 
-  const btu = p.specs.refrigeracion ? ` — ${p.specs.refrigeracion}` : "";
   return {
-    title: `${p.modelo}${btu}`,
+    title: `${p.modelo} — ${p.specs.capacidad}`,
     description: p.descripcion,
     alternates: { canonical: `/productos/${p.slug}` },
+    openGraph: { images: [`/productos/${p.slug}.png`] },
   };
 }
 
@@ -37,11 +38,12 @@ export default async function ProductoPage({ params }: Props) {
   if (!producto) notFound();
 
   const specs = specsConValor(producto);
+  const linea = getLinea(producto.linea);
   const relacionados = productos
-    .filter((p) => p.slug !== producto.slug && p.lineas.some((l) => producto.lineas.includes(l)))
+    .filter((p) => p.slug !== producto.slug && p.linea === producto.linea)
     .slice(0, 3);
 
-  const mensajeWa = `Hola ${site.nombre}, me interesa el equipo ARCO ${producto.modelo}. ¿Me pueden enviar cotización?`;
+  const mensajeWa = `Hola ${site.nombre}, me interesa el equipo ARCO ${producto.modelo} (${producto.specs.capacidad}). ¿Me pueden enviar cotización?`;
 
   return (
     <>
@@ -59,19 +61,11 @@ export default async function ProductoPage({ params }: Props) {
 
             <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-hielo-300">
-                    {producto.tipo}
+                {linea && (
+                  <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-hielo-300">
+                    {linea.nombre}
                   </span>
-                  {producto.lineas.map((l) => (
-                    <span
-                      key={l}
-                      className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-marca-100"
-                    >
-                      {getLinea(l)?.nombre}
-                    </span>
-                  ))}
-                </div>
+                )}
 
                 <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-balance text-white sm:text-5xl">
                   {producto.modelo}
@@ -81,28 +75,24 @@ export default async function ProductoPage({ params }: Props) {
                 </p>
 
                 <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-5">
-                  {producto.specs.refrigeracion && (
-                    <div>
-                      <dt className="text-xs text-marca-300">Refrigeración</dt>
-                      <dd className="mt-1 text-2xl font-bold text-white">
-                        {producto.specs.refrigeracion}
-                      </dd>
-                    </div>
-                  )}
                   <div>
-                    <dt className="text-xs text-marca-300">Pasajeros</dt>
-                    <dd className="mt-1 text-2xl font-bold text-white">
-                      hasta {producto.pasajeros}
+                    <dt className="text-xs text-marca-300">Capacidad</dt>
+                    <dd className="mt-1 text-2xl font-bold text-white tabular-nums">
+                      {producto.specs.capacidad}
                     </dd>
                   </div>
-                  {producto.specs.voltaje && (
-                    <div>
-                      <dt className="text-xs text-marca-300">Voltaje</dt>
-                      <dd className="mt-1 text-2xl font-bold text-white">
-                        {producto.specs.voltaje}
-                      </dd>
-                    </div>
-                  )}
+                  <div>
+                    <dt className="text-xs text-marca-300">Caudal de aire</dt>
+                    <dd className="mt-1 text-2xl font-bold text-white tabular-nums">
+                      {producto.specs.caudal}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs text-marca-300">Tensión</dt>
+                    <dd className="mt-1 text-2xl font-bold text-white">
+                      {producto.specs.tension}
+                    </dd>
+                  </div>
                 </dl>
 
                 <div className="mt-9 flex flex-wrap gap-3">
@@ -115,10 +105,15 @@ export default async function ProductoPage({ params }: Props) {
                 </div>
               </div>
 
-              {/* Imagen — pendiente del material oficial de ARCO.
-                  Reemplazar por <Image src={`/productos/${producto.slug}.jpg`} ... /> */}
-              <div className="placeholder-tecnico flex aspect-4/3 items-center justify-center rounded-xl border border-white/10">
-                <Icono nombre="bus" className="h-20 w-20 text-white/20" />
+              <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-gradient-to-br from-white to-hielo-300/40">
+                <Image
+                  src={`/productos/${producto.slug}.png`}
+                  alt={`Aire acondicionado ARCO ${producto.modelo}`}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-contain p-6"
+                  priority
+                />
               </div>
             </div>
           </div>
@@ -133,41 +128,30 @@ export default async function ProductoPage({ params }: Props) {
                   Datos técnicos
                 </h2>
 
-                {specs.length > 0 ? (
-                  <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
-                    <table className="w-full text-sm">
-                      <tbody>
-                        {specs.map(([etiqueta, valor], i) => (
-                          <tr
-                            key={etiqueta}
-                            className={i % 2 === 1 ? "bg-slate-50" : "bg-white"}
+                <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
+                  <table className="w-full text-sm">
+                    <tbody>
+                      {specs.map(([etiqueta, valor], i) => (
+                        <tr key={etiqueta} className={i % 2 === 1 ? "bg-slate-50" : "bg-white"}>
+                          <th
+                            scope="row"
+                            className="w-1/2 px-5 py-3.5 text-left font-medium text-slate-600"
                           >
-                            <th
-                              scope="row"
-                              className="w-1/2 px-5 py-3.5 text-left font-medium text-slate-600"
-                            >
-                              {etiqueta}
-                            </th>
-                            <td className="px-5 py-3.5 font-semibold text-marca-900">
-                              {valor}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="mt-6 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-                    <p className="text-sm text-slate-600">
-                      La ficha técnica de este modelo está disponible bajo solicitud.
-                    </p>
-                    <div className="mt-5">
-                      <Boton href={whatsappLink(mensajeWa)} externo>
-                        Solicitar ficha técnica
-                      </Boton>
-                    </div>
-                  </div>
-                )}
+                            {etiqueta}
+                          </th>
+                          <td className="px-5 py-3.5 font-semibold text-marca-900 tabular-nums">
+                            {valor}
+                            {etiqueta.startsWith("Dimensiones") && producto.nota && (
+                              <span className="ml-2 font-normal text-slate-500">
+                                ({producto.nota.toLowerCase()})
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 <p className="mt-4 text-xs text-slate-500">
                   Especificaciones sujetas a cambio por parte del fabricante. Confirme
@@ -175,46 +159,15 @@ export default async function ProductoPage({ params }: Props) {
                 </p>
               </div>
 
-              {/* Opcionales */}
               <aside>
-                <h2 className="text-2xl font-bold tracking-tight text-marca-900">
-                  Opcionales
-                </h2>
-                {producto.opcionales.length > 0 ? (
-                  <ul className="mt-6 space-y-3">
-                    {producto.opcionales.map((o) => (
-                      <li key={o} className="flex gap-3 text-sm text-slate-700">
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="mt-0.5 shrink-0 text-marca-600"
-                          aria-hidden="true"
-                        >
-                          <path d="M20 6L9 17l-5-5" />
-                        </svg>
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="mt-6 text-sm text-slate-600">
-                    Consulte disponibilidad de opcionales para este modelo.
-                  </p>
-                )}
-
-                <div className="mt-8 rounded-xl bg-marca-50 p-5">
-                  <h3 className="text-sm font-semibold text-marca-900">
+                <div className="rounded-xl bg-marca-50 p-6">
+                  <h2 className="font-semibold text-marca-900">
                     ¿Es el equipo correcto?
-                  </h3>
+                  </h2>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    La capacidad necesaria depende del chasis, la carrocería y la ruta.
-                    Escríbanos y lo verificamos con usted.
+                    La capacidad necesaria depende del chasis, la carrocería, el número
+                    de pasajeros y las condiciones de la ruta. Escríbanos con esos datos
+                    y lo verificamos con usted antes de cotizar.
                   </p>
                   <Link
                     href="/contacto"
@@ -222,6 +175,15 @@ export default async function ProductoPage({ params }: Props) {
                   >
                     Hablar con un asesor →
                   </Link>
+                </div>
+
+                <div className="mt-6 rounded-xl border border-slate-200 p-6">
+                  <h2 className="font-semibold text-marca-900">Fabricante</h2>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                    {site.fabricante.nombre} — {site.fabricante.ciudad},{" "}
+                    {site.fabricante.pais}. Cada componente está diseñado a la medida del
+                    vehículo, garantizando integración, eficiencia y confiabilidad.
+                  </p>
                 </div>
               </aside>
             </div>
@@ -240,15 +202,25 @@ export default async function ProductoPage({ params }: Props) {
                   <Link
                     key={p.slug}
                     href={`/productos/${p.slug}`}
-                    className="group rounded-xl border border-slate-200 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-marca-300 hover:shadow-md"
+                    className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-marca-300 hover:shadow-md"
                   >
-                    <h3 className="font-semibold text-marca-900 group-hover:text-marca-700">
-                      {p.modelo}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-slate-600">
-                      {p.specs.refrigeracion || "Ficha bajo solicitud"} · hasta{" "}
-                      {p.pasajeros} pasajeros
-                    </p>
+                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-marca-50 to-hielo-300/25">
+                      <Image
+                        src={`/productos/${p.slug}.png`}
+                        alt=""
+                        fill
+                        sizes="96px"
+                        className="object-contain p-1.5"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-marca-900 group-hover:text-marca-700">
+                        {p.modelo}
+                      </h3>
+                      <p className="mt-0.5 text-sm text-slate-600 tabular-nums">
+                        {p.specs.capacidad}
+                      </p>
+                    </div>
                   </Link>
                 ))}
               </div>
