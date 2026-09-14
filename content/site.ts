@@ -14,7 +14,7 @@
 export const site = {
   // ---------------------------------------------------------------- Identidad
   nombre: "Thermobus",
-  nombreLegal: "Thermobus S.A.S.", // <<< COMPLETAR razón social real
+  nombreLegal: "Thermo Bus S.A.S.",
   tagline: "Representantes de ARCO Climatização en Colombia",
   descripcion:
     "Aire acondicionado para autobuses urbanos, interurbanos, articulados, eléctricos y microbuses. Representación oficial en Colombia de ARCO Climatização (Brasil).",
@@ -27,12 +27,14 @@ export const site = {
 
   // ----------------------------------------------------------------- Contacto
   contacto: {
-    ciudad: "Bogotá, Colombia", // <<< COMPLETAR
-    direccion: "", // <<< COMPLETAR (opcional; si queda vacío no se muestra)
-    telefono: "+57 000 000 0000", // <<< COMPLETAR
+    ciudad: "Bogotá, Colombia",
+    direccion: "", // opcional: dirección de la oficina. Vacío = no se muestra.
+    telefono: "+57 310 702 5510",
     // Solo dígitos con indicativo país, sin + ni espacios. Para el link de WhatsApp.
-    whatsapp: "573000000000", // <<< COMPLETAR
-    email: "comercial@thermobus.com.co", // <<< COMPLETAR
+    whatsapp: "573107025510",
+    // <<< COMPLETAR: correo comercial. Mientras esté vacío no se muestra en
+    // ninguna parte del sitio y el formulario envía solo por WhatsApp.
+    email: "",
     horario: "Lunes a viernes, 8:00 a.m. – 5:00 p.m.",
   },
 

@@ -64,7 +64,7 @@ export default function FormularioContacto() {
     e.preventDefault();
     const cuerpo = componerMensaje();
 
-    if (via === "whatsapp") {
+    if (via === "whatsapp" || !site.contacto.email) {
       window.open(
         `https://wa.me/${site.contacto.whatsapp}?text=${encodeURIComponent(cuerpo)}`,
         "_blank",
@@ -195,8 +195,8 @@ export default function FormularioContacto() {
         />
       </div>
 
-      {/* Selector de canal */}
-      <fieldset>
+      {/* Selector de canal — el correo solo aparece si hay uno configurado */}
+      <fieldset hidden={!site.contacto.email}>
         <legend className={labelCls}>Enviar por</legend>
         <div className="mt-2 flex gap-2">
           {(["whatsapp", "email"] as const).map((opcion) => (
@@ -225,8 +225,9 @@ export default function FormularioContacto() {
       </button>
 
       <p className="text-xs text-slate-500">
-        Al enviar se abrirá {via === "whatsapp" ? "WhatsApp" : "su cliente de correo"} con
-        la solicitud ya redactada. Respondemos dentro del siguiente día hábil.
+        Al enviar se abrirá{" "}
+        {via === "whatsapp" || !site.contacto.email ? "WhatsApp" : "su cliente de correo"}{" "}
+        con la solicitud ya redactada. Respondemos dentro del siguiente día hábil.
       </p>
     </form>
   );

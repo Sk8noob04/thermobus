@@ -99,7 +99,7 @@ export default function Home() {
                 href={`/productos#${linea.id}`}
                 className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all hover:-translate-y-0.5 hover:border-marca-300 hover:shadow-lg"
               >
-                <div className="relative aspect-16/9 bg-gradient-to-br from-marca-50 to-hielo-300/25">
+                <div className="relative aspect-16/9 border-b border-slate-100 bg-white">
                   <Image
                     src={`/productos/${items[0].slug}.png`}
                     alt=""

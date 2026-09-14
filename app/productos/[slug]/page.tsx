@@ -105,7 +105,7 @@ export default async function ProductoPage({ params }: Props) {
                 </div>
               </div>
 
-              <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-gradient-to-br from-white to-hielo-300/40">
+              <div className="relative aspect-4/3 overflow-hidden rounded-xl bg-white">
                 <Image
                   src={`/productos/${producto.slug}.png`}
                   alt={`Aire acondicionado ARCO ${producto.modelo}`}
@@ -204,7 +204,7 @@ export default async function ProductoPage({ params }: Props) {
                     href={`/productos/${p.slug}`}
                     className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-all hover:-translate-y-0.5 hover:border-marca-300 hover:shadow-md"
                   >
-                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-marca-50 to-hielo-300/25">
+                    <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-white">
                       <Image
                         src={`/productos/${p.slug}.png`}
                         alt=""

@@ -30,7 +30,9 @@ export default function CtaFinal({
           </div>
         </div>
         <p className="mt-8 border-t border-white/10 pt-6 text-sm text-marca-300">
-          {site.contacto.ciudad} · {site.contacto.telefono} · {site.contacto.email}
+          {[site.contacto.ciudad, site.contacto.telefono, site.contacto.email]
+            .filter(Boolean)
+            .join(" · ")}
         </p>
       </div>
     </section>

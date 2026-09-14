@@ -21,11 +21,15 @@ export default function Contacto() {
       valor: site.contacto.telefono,
       href: `tel:${site.contacto.telefono.replace(/\s/g, "")}`,
     },
-    {
-      etiqueta: "Correo",
-      valor: site.contacto.email,
-      href: `mailto:${site.contacto.email}`,
-    },
+    ...(site.contacto.email
+      ? [
+          {
+            etiqueta: "Correo",
+            valor: site.contacto.email,
+            href: `mailto:${site.contacto.email}`,
+          },
+        ]
+      : []),
   ];
 
   return (

@@ -23,12 +23,14 @@ export default function Header() {
             >
               {site.contacto.telefono}
             </a>
-            <a
-              href={`mailto:${site.contacto.email}`}
-              className="transition-colors hover:text-white"
-            >
-              {site.contacto.email}
-            </a>
+            {site.contacto.email && (
+              <a
+                href={`mailto:${site.contacto.email}`}
+                className="transition-colors hover:text-white"
+              >
+                {site.contacto.email}
+              </a>
+            )}
           </div>
         </div>
       </div>

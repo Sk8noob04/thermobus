@@ -43,7 +43,7 @@ const jsonLd = {
   legalName: site.nombreLegal,
   description: site.descripcion,
   url: site.url,
-  email: site.contacto.email,
+  ...(site.contacto.email ? { email: site.contacto.email } : {}),
   telephone: site.contacto.telefono,
   address: {
     "@type": "PostalAddress",

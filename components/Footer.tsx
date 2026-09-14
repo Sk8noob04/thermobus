@@ -46,14 +46,16 @@ export default function Footer() {
                   {site.contacto.telefono}
                 </a>
               </li>
-              <li>
-                <a
-                  href={`mailto:${site.contacto.email}`}
-                  className="break-all transition-colors hover:text-white"
-                >
-                  {site.contacto.email}
-                </a>
-              </li>
+              {site.contacto.email && (
+                <li>
+                  <a
+                    href={`mailto:${site.contacto.email}`}
+                    className="break-all transition-colors hover:text-white"
+                  >
+                    {site.contacto.email}
+                  </a>
+                </li>
+              )}
             </ul>
 
             {redes.length > 0 && (
