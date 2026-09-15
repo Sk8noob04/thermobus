@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site, whatsappLink } from "@/content/site";
 import FormularioContacto from "@/components/FormularioContacto";
+import { IconoWhatsApp } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -15,6 +16,7 @@ export default function Contacto() {
       valor: site.contacto.telefono,
       href: whatsappLink(),
       externo: true,
+      wa: true,
     },
     {
       etiqueta: "Teléfono",
@@ -85,8 +87,11 @@ export default function Contacto() {
                           {...(item.externo
                             ? { target: "_blank", rel: "noopener noreferrer" }
                             : {})}
-                          className="font-medium break-all text-marca-800 hover:text-marca-600"
+                          className="inline-flex items-center gap-1.5 font-medium break-all text-marca-800 hover:text-marca-600"
                         >
+                          {"wa" in item && item.wa && (
+                            <IconoWhatsApp className="h-4 w-4 shrink-0 text-[#25D366]" />
+                          )}
                           {item.valor}
                         </a>
                       </dd>

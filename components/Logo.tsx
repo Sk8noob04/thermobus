@@ -22,9 +22,9 @@ export default function Logo({
     <Image
       src={invertido ? "/logo-blanco.png" : "/logo.png"}
       alt="Thermobus — climatización para transporte"
-      width={660}
-      height={92}
-      sizes="220px"
+      width={1493}
+      height={204}
+      sizes="(max-width: 640px) 220px, 420px"
       className={className}
       priority={priority}
     />

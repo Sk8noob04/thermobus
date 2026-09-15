@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { site } from "@/content/site";
+import { site, whatsappLink } from "@/content/site";
 import Logo from "./Logo";
+import { IconoWhatsApp } from "./ui";
 
 export default function Footer() {
   const anio = new Date().getFullYear();
@@ -12,7 +13,7 @@ export default function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Marca */}
           <div className="lg:col-span-2">
-            <Logo className="h-9 w-auto" invertido />
+            <Logo className="h-12 w-auto" invertido />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-marca-300">
               {site.descripcion}
             </p>
@@ -40,9 +41,12 @@ export default function Footer() {
               {site.contacto.direccion && <li>{site.contacto.direccion}</li>}
               <li>
                 <a
-                  href={`tel:${site.contacto.telefono.replace(/\s/g, "")}`}
-                  className="transition-colors hover:text-white"
+                  href={whatsappLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
                 >
+                  <IconoWhatsApp className="h-4 w-4 text-[#25D366]" />
                   {site.contacto.telefono}
                 </a>
               </li>

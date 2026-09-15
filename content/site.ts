@@ -20,7 +20,8 @@ export const site = {
     "Aire acondicionado para autobuses urbanos, interurbanos, articulados, eléctricos y microbuses. Representación oficial en Colombia de ARCO Climatização (Brasil).",
 
   // URL final del sitio (sin slash al final). Se usa para SEO y sitemap.
-  url: "https://www.thermobus.com.co", // <<< COMPLETAR con tu dominio real
+  // El dominio apunta al apex, sin www: www.thermobus.com.co redirige aquí.
+  url: "https://thermobus.com.co",
 
   // ------------------------------------------------------------------ Idioma
   locale: "es-CO",
@@ -63,7 +64,7 @@ export const site = {
     {
       titulo: "Representación oficial",
       texto:
-        "Somos la cara comercial de ARCO Climatização en Colombia: precios de fábrica, respaldo directo y trazabilidad de cada equipo.",
+        "Somos la cara comercial de ARCO Climatização en Colombia: precios competitivos en el mercado nacional, con equipos de renombre internacional.",
       icono: "shield",
     },
     {
@@ -91,7 +92,7 @@ export const site = {
     intro:
       "Thermobus nace para acercar al transportador colombiano la tecnología de climatización de ARCO, uno de los fabricantes de aire acondicionado para buses de mayor trayectoria en Brasil.",
     cuerpo: [
-      "Operamos como la representación comercial de ARCO Climatização en Colombia. Eso significa que el transportador, el carrocero y el operador de flota tratan con un interlocutor local —en su idioma, su moneda y su marco normativo— pero compran directamente el producto de fábrica.",
+      "Operamos como la representación comercial de ARCO Climatização en Colombia. Eso significa que el transportador, el carrocero y el operador de flota tratan con un representante local —en su idioma, su moneda y su marco normativo— con el respaldo directo de la fábrica.",
       "Nuestro trabajo no termina en la cotización. Acompañamos la selección técnica del equipo según el chasis y la carrocería, coordinamos la importación, y damos soporte en instalación, puesta en marcha y repuestos.",
     ],
     // Los valores de ARCO, adaptados. Edita a gusto.

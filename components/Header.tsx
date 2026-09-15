@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { site, whatsappLink } from "@/content/site";
 import Logo from "./Logo";
+import { IconoWhatsApp } from "./ui";
 
 export default function Header() {
   const pathname = usePathname();
@@ -18,9 +19,12 @@ export default function Header() {
           <span className="text-marca-200">{site.tagline}</span>
           <div className="flex items-center gap-5">
             <a
-              href={`tel:${site.contacto.telefono.replace(/\s/g, "")}`}
-              className="transition-colors hover:text-white"
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-white"
             >
+              <IconoWhatsApp className="h-3.5 w-3.5 text-[#25D366]" />
               {site.contacto.telefono}
             </a>
             {site.contacto.email && (
@@ -39,7 +43,7 @@ export default function Header() {
       <div className="border-b border-marca-900/10 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
           <Link href="/" className="shrink-0" aria-label={`${site.nombre} — inicio`}>
-            <Logo className="h-9 w-auto" priority />
+            <Logo className="h-10 w-auto sm:h-14" priority />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">

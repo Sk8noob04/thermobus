@@ -1,5 +1,5 @@
 import { site, whatsappLink } from "@/content/site";
-import { Boton } from "./ui";
+import { Boton, IconoWhatsApp } from "./ui";
 
 export default function CtaFinal({
   titulo = "¿Necesita climatizar su flota?",
@@ -29,10 +29,19 @@ export default function CtaFinal({
             </Boton>
           </div>
         </div>
-        <p className="mt-8 border-t border-white/10 pt-6 text-sm text-marca-300">
-          {[site.contacto.ciudad, site.contacto.telefono, site.contacto.email]
-            .filter(Boolean)
-            .join(" · ")}
+        <p className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-white/10 pt-6 text-sm text-marca-300">
+          <span>{site.contacto.ciudad}</span>
+          <span aria-hidden="true">·</span>
+          <span className="inline-flex items-center gap-1.5">
+            <IconoWhatsApp className="h-3.5 w-3.5 text-[#25D366]" />
+            {site.contacto.telefono}
+          </span>
+          {site.contacto.email && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{site.contacto.email}</span>
+            </>
+          )}
         </p>
       </div>
     </section>

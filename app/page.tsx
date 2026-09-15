@@ -64,8 +64,8 @@ export default function Home() {
       <Seccion>
         <TituloSeccion
           sobretitulo="Por qué Thermobus"
-          titulo="Producto de fábrica, interlocutor local"
-          descripcion="Compra directa a ARCO Climatização con acompañamiento técnico y comercial en Colombia."
+          titulo="Producto de fábrica, representante en Colombia"
+          descripcion="Compra ARCO Climatização con acompañamiento técnico y comercial en Colombia."
         />
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {site.diferenciales.map((d) => (
