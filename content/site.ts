@@ -70,7 +70,7 @@ export const site = {
     {
       titulo: "Soluciones eficientes",
       texto:
-        "Cada componente está diseñado a la medida del vehículo, garantizando integración, eficiencia y confiabilidad.",
+        "Cada equipo se configura para el vehículo: capacidad, tensión y tipo de montaje según el chasis y la carrocería.",
       icono: "gauge",
     },
     {

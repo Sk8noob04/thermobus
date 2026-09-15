@@ -181,8 +181,9 @@ export default async function ProductoPage({ params }: Props) {
                   <h2 className="font-semibold text-marca-900">Fabricante</h2>
                   <p className="mt-2 text-sm leading-relaxed text-slate-600">
                     {site.fabricante.nombre} — {site.fabricante.ciudad},{" "}
-                    {site.fabricante.pais}. Cada componente está diseñado a la medida del
-                    vehículo, garantizando integración, eficiencia y confiabilidad.
+                    {site.fabricante.pais}. Fabricación especializada en climatización
+                    para transporte de pasajeros, bajo estándares nacionales e
+                    internacionales.
                   </p>
                 </div>
               </aside>
