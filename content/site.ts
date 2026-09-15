@@ -33,9 +33,9 @@ export const site = {
     telefono: "+57 310 702 5510",
     // Solo dígitos con indicativo país, sin + ni espacios. Para el link de WhatsApp.
     whatsapp: "573107025510",
-    // <<< COMPLETAR: correo comercial. Mientras esté vacío no se muestra en
-    // ninguna parte del sitio y el formulario envía solo por WhatsApp.
-    email: "",
+    // Buzón Microsoft 365 del tenant soltranes.onmicrosoft.com.
+    // Si queda vacío, el correo no se muestra y el formulario usa solo WhatsApp.
+    email: "info@thermobus.com.co",
     horario: "Lunes a viernes, 8:00 a.m. – 5:00 p.m.",
   },
 
