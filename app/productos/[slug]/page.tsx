@@ -12,6 +12,7 @@ import {
 import { site, whatsappLink } from "@/content/site";
 import { Boton } from "@/components/ui";
 import CtaFinal from "@/components/CtaFinal";
+import LogoArco from "@/components/LogoArco";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -61,11 +62,14 @@ export default async function ProductoPage({ params }: Props) {
 
             <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-center">
               <div>
-                {linea && (
-                  <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-hielo-300">
-                    {linea.nombre}
-                  </span>
-                )}
+                <div className="flex flex-wrap items-center gap-4">
+                  <LogoArco className="h-8 w-auto" invertido sizes="130px" />
+                  {linea && (
+                    <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-hielo-300">
+                      {linea.nombre}
+                    </span>
+                  )}
+                </div>
 
                 <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-balance text-white sm:text-5xl">
                   {producto.modelo}
@@ -178,12 +182,17 @@ export default async function ProductoPage({ params }: Props) {
                 </div>
 
                 <div className="mt-6 rounded-xl border border-slate-200 p-6">
-                  <h2 className="font-semibold text-marca-900">Fabricante</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    {site.fabricante.nombre} — {site.fabricante.ciudad},{" "}
-                    {site.fabricante.pais}. Fabricación especializada en climatización
-                    para transporte de pasajeros, bajo estándares nacionales e
-                    internacionales.
+                  <h2 className="text-xs font-semibold tracking-[0.12em] text-slate-500 uppercase">
+                    Fabricante
+                  </h2>
+                  <LogoArco className="mt-4 h-auto w-full max-w-[200px]" sizes="200px" />
+                  <p className="mt-4 text-sm leading-relaxed text-slate-600">
+                    {site.fabricante.ciudad}, {site.fabricante.pais}. Fabricación
+                    especializada en climatización para transporte de pasajeros, bajo
+                    estándares nacionales e internacionales.
+                  </p>
+                  <p className="mt-3 text-sm font-medium text-marca-800">
+                    {site.nombre} es su representación oficial en Colombia.
                   </p>
                 </div>
               </aside>

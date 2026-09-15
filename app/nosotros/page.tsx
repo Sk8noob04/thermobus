@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
-import { Icono, Seccion, TituloSeccion } from "@/components/ui";
+import { Seccion, TituloSeccion } from "@/components/ui";
 import CtaFinal from "@/components/CtaFinal";
+import LogoArco from "@/components/LogoArco";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -24,6 +25,15 @@ export default function Nosotros() {
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-marca-200">
             {site.nosotros.intro}
           </p>
+
+          <div className="mt-10 inline-flex flex-wrap items-center gap-6 rounded-xl border border-white/15 bg-white/[0.04] px-7 py-5 backdrop-blur">
+            <span className="text-xs leading-tight font-medium tracking-wide text-marca-200 uppercase">
+              Representación oficial
+              <br />
+              en Colombia de
+            </span>
+            <LogoArco className="h-12 w-auto" invertido sizes="200px" priority />
+          </div>
         </div>
       </section>
 
@@ -52,13 +62,11 @@ export default function Nosotros() {
           {/* Ficha del fabricante */}
           <aside className="lg:col-span-1">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-marca-900 text-hielo-400">
-                <Icono nombre="snowflake" />
-              </div>
-              <h2 className="mt-4 font-semibold text-marca-900">
-                {site.fabricante.nombre}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
+              <p className="text-xs font-semibold tracking-[0.12em] text-slate-500 uppercase">
+                El fabricante
+              </p>
+              <LogoArco className="mt-4 h-auto w-full max-w-[240px]" sizes="240px" />
+              <p className="mt-5 text-sm leading-relaxed text-slate-600">
                 {site.fabricante.descripcion}
               </p>
               <dl className="mt-5 space-y-3 border-t border-slate-200 pt-5 text-sm">

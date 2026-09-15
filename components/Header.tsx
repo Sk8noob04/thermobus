@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { site, whatsappLink } from "@/content/site";
 import Logo from "./Logo";
+import LogoArco from "./LogoArco";
 import { IconoWhatsApp } from "./ui";
 
 export default function Header() {
@@ -42,9 +43,21 @@ export default function Header() {
       {/* Nav principal */}
       <div className="border-b border-marca-900/10 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <Link href="/" className="shrink-0" aria-label={`${site.nombre} — inicio`}>
-            <Logo className="h-10 w-auto sm:h-14" priority />
-          </Link>
+          <div className="flex min-w-0 items-center gap-4 sm:gap-5">
+            <Link href="/" className="shrink-0" aria-label={`${site.nombre} — inicio`}>
+              <Logo className="h-10 w-auto sm:h-14" priority />
+            </Link>
+
+            {/* Co-marca: representación oficial de ARCO */}
+            <div className="hidden items-center gap-3 border-l border-slate-200 pl-5 lg:flex">
+              <span className="text-[10px] leading-tight font-medium tracking-wide text-slate-500 uppercase">
+                Representante
+                <br />
+                oficial de
+              </span>
+              <LogoArco className="h-8 w-auto lg:h-9" sizes="130px" priority />
+            </div>
+          </div>
 
           <nav className="hidden items-center gap-1 md:flex">
             {site.nav.map((item) => {

@@ -6,17 +6,12 @@ import { site } from "@/content/site";
 /**
  * FORMULARIO DE CONTACTO
  *
- * Al enviar:
- *   1. Registra el lead en /api/contacto — el servidor manda el correo a la
- *      casilla comercial con un formato fijo, y de ahí Power Automate lo pasa
- *      al Excel online. Esto ocurre SIEMPRE, sin importar el canal elegido,
- *      así que ningún contacto se pierde.
- *   2. Si el visitante eligió WhatsApp, abre la conversación con el mensaje
- *      ya redactado.
+ * No hay servidor de por medio: el formulario arma el mensaje con los datos
+ * que completó el visitante y lo abre en el canal que él eligió —WhatsApp o
+ * su cliente de correo— para que lo envíe desde su propia cuenta.
  *
- * Si el endpoint todavía no está configurado (falta RESEND_API_KEY) o falla,
- * el formulario cae de vuelta al método anterior: abrir WhatsApp o el cliente
- * de correo. Nunca se queda sin salida.
+ * Ventaja: el visitante queda con copia de lo que mandó, y la respuesta va
+ * directo a su bandeja. Sin costos, sin claves, sin mantenimiento.
  */
 
 const LINEAS = [
@@ -28,8 +23,6 @@ const LINEAS = [
   "No estoy seguro",
 ];
 
-type Estado = "libre" | "enviando" | "enviado" | "error";
-
 export default function FormularioContacto() {
   const [datos, setDatos] = useState({
     nombre: "",
@@ -40,10 +33,8 @@ export default function FormularioContacto() {
     linea: "",
     cantidad: "",
     mensaje: "",
-    website: "", // honeypot
   });
   const [via, setVia] = useState<"whatsapp" | "email">("whatsapp");
-  const [estado, setEstado] = useState<Estado>("libre");
 
   const set =
     (campo: keyof typeof datos) =>
@@ -72,108 +63,27 @@ export default function FormularioContacto() {
       .join("\n");
   }
 
-  function abrirCanal() {
+  function enviar(e: React.FormEvent) {
+    e.preventDefault();
     const cuerpo = componerMensaje();
+
     if (via === "whatsapp" || !site.contacto.email) {
       window.open(
         `https://wa.me/${site.contacto.whatsapp}?text=${encodeURIComponent(cuerpo)}`,
         "_blank",
         "noopener,noreferrer"
       );
-    } else {
-      window.location.href = `mailto:${site.contacto.email}?subject=${encodeURIComponent(
-        `Cotización — ${datos.empresa || datos.nombre}`
-      )}&body=${encodeURIComponent(cuerpo)}`;
-    }
-  }
-
-  async function enviar(e: React.FormEvent) {
-    e.preventDefault();
-    if (estado === "enviando") return;
-    setEstado("enviando");
-
-    let registrado = false;
-    try {
-      const r = await fetch("/api/contacto", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...datos, canal: via }),
-      });
-      const json = await r.json().catch(() => ({ ok: false }));
-      registrado = json?.ok === true;
-    } catch {
-      registrado = false;
-    }
-
-    if (via === "whatsapp") {
-      // Siempre abre WhatsApp: es lo que el visitante pidió.
-      abrirCanal();
-      setEstado(registrado ? "enviado" : "libre");
       return;
     }
 
-    if (registrado) {
-      setEstado("enviado");
-      return;
-    }
-
-    // El servidor no pudo: se abre el cliente de correo como respaldo.
-    abrirCanal();
-    setEstado("libre");
+    window.location.href = `mailto:${site.contacto.email}?subject=${encodeURIComponent(
+      `Cotización — ${datos.empresa || datos.nombre}`
+    )}&body=${encodeURIComponent(cuerpo)}`;
   }
 
   const inputCls =
     "w-full rounded-md border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-marca-600 focus:ring-2 focus:ring-marca-100 focus:outline-none";
   const labelCls = "block text-sm font-medium text-slate-700";
-
-  if (estado === "enviado") {
-    return (
-      <div className="rounded-xl border border-marca-200 bg-marca-50 p-8">
-        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-marca-700">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M20 6L9 17l-5-5" />
-          </svg>
-        </div>
-        <h3 className="mt-4 text-lg font-semibold text-marca-900">
-          Solicitud enviada
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">
-          Recibimos sus datos. Le respondemos dentro del siguiente día hábil
-          {datos.email && ` al correo ${datos.email}`}.
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            setDatos({
-              nombre: "",
-              empresa: "",
-              email: "",
-              telefono: "",
-              ciudad: "",
-              linea: "",
-              cantidad: "",
-              mensaje: "",
-              website: "",
-            });
-            setEstado("libre");
-          }}
-          className="mt-5 text-sm font-semibold text-marca-700 hover:text-marca-800"
-        >
-          Enviar otra solicitud
-        </button>
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={enviar} className="space-y-5">
@@ -289,20 +199,8 @@ export default function FormularioContacto() {
         />
       </div>
 
-      {/* Honeypot: invisible para personas, tentador para bots. */}
-      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
-        <label htmlFor="website">No completar</label>
-        <input
-          id="website"
-          tabIndex={-1}
-          autoComplete="off"
-          value={datos.website}
-          onChange={set("website")}
-        />
-      </div>
-
       <fieldset hidden={!site.contacto.email}>
-        <legend className={labelCls}>Prefiero que me contacten por</legend>
+        <legend className={labelCls}>Enviar por</legend>
         <div className="mt-2 flex gap-2">
           {(["whatsapp", "email"] as const).map((opcion) => (
             <button
@@ -324,16 +222,18 @@ export default function FormularioContacto() {
 
       <button
         type="submit"
-        disabled={estado === "enviando"}
-        className="w-full rounded-md bg-marca-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-marca-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-md bg-marca-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-marca-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-marca-700 sm:w-auto"
       >
-        {estado === "enviando" ? "Enviando…" : "Enviar solicitud"}
+        Enviar solicitud
       </button>
 
       <p className="text-xs text-slate-500">
-        {via === "whatsapp"
-          ? "Registramos su solicitud y se abre WhatsApp con el mensaje redactado."
-          : "Respondemos dentro del siguiente día hábil."}
+        Al enviar se abrirá{" "}
+        {via === "whatsapp" || !site.contacto.email
+          ? "WhatsApp"
+          : "su correo"}{" "}
+        con la solicitud ya redactada, lista para mandar. Respondemos dentro del
+        siguiente día hábil.
       </p>
     </form>
   );

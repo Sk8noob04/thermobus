@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site, whatsappLink } from "@/content/site";
 import Logo from "./Logo";
+import LogoArco from "./LogoArco";
 import { IconoWhatsApp } from "./ui";
 
 export default function Footer() {
@@ -17,6 +18,13 @@ export default function Footer() {
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-marca-300">
               {site.descripcion}
             </p>
+
+            <div className="mt-8 inline-flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 px-5 py-4">
+              <span className="text-[10px] font-semibold tracking-[0.12em] text-hielo-400 uppercase">
+                Representación oficial en Colombia de
+              </span>
+              <LogoArco className="h-11 w-auto" invertido sizes="180px" />
+            </div>
           </div>
 
           {/* Navegación */}

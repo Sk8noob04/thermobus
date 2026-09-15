@@ -5,6 +5,7 @@ import { lineas, productos, productosPorLinea } from "@/content/products";
 import { Boton, Icono, Seccion, TituloSeccion } from "@/components/ui";
 import ProductCard from "@/components/ProductCard";
 import CtaFinal from "@/components/CtaFinal";
+import LogoArco from "@/components/LogoArco";
 
 export default function Home() {
   const destacados = productos.filter((p) => p.destacado);
@@ -19,8 +20,8 @@ export default function Home() {
           className="absolute inset-0 -z-10 bg-gradient-to-br from-marca-950 via-marca-900 to-marca-950 opacity-95"
           aria-hidden="true"
         />
-        <div className="mx-auto max-w-6xl px-4 py-24 sm:py-32">
-          <div className="max-w-2xl">
+        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:py-28 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+          <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-hielo-300 backdrop-blur">
               <Icono nombre="snowflake" className="h-3.5 w-3.5" />
               {site.tagline}
@@ -39,6 +40,26 @@ export default function Home() {
                 {site.hero.ctaSecundario.texto}
               </Boton>
             </div>
+          </div>
+
+          {/* Sello de representación: la marca del fabricante como respaldo */}
+          <div className="rounded-2xl border border-white/15 bg-white/[0.04] p-8 text-center backdrop-blur sm:p-10">
+            <LogoArco
+              className="mx-auto h-auto w-full max-w-[320px]"
+              invertido
+              sizes="(max-width: 1024px) 320px, 340px"
+              priority
+            />
+            <div className="mx-auto mt-7 h-px w-16 bg-hielo-400/50" aria-hidden="true" />
+            <p className="mt-7 text-xl font-bold tracking-tight text-balance text-white sm:text-2xl">
+              Representación oficial
+              <br />
+              en Colombia
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-marca-200">
+              Tecnología brasileña fabricada por {site.fabricante.nombre} en{" "}
+              {site.fabricante.ciudad}.
+            </p>
           </div>
         </div>
 
@@ -148,18 +169,23 @@ export default function Home() {
       <Seccion fondo="oscuro">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
-            <TituloSeccion
-              sobretitulo="El fabricante"
-              titulo={site.fabricante.nombre}
-              descripcion={site.fabricante.descripcion}
+            <p className="text-xs font-semibold tracking-[0.14em] text-hielo-400 uppercase">
+              El fabricante
+            </p>
+            <LogoArco
+              className="mt-5 h-auto w-full max-w-[380px]"
               invertido
+              sizes="(max-width: 1024px) 300px, 380px"
             />
-            <p className="mt-6 text-sm text-marca-300">
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-pretty text-marca-200">
+              {site.fabricante.descripcion}
+            </p>
+            <p className="mt-4 text-sm text-marca-300">
               Planta en {site.fabricante.ciudad}, {site.fabricante.pais}.
             </p>
             <div className="mt-8">
               <Boton href="/nosotros" variante="fantasma">
-                Conocer a Thermobus
+                Conocer la representación
               </Boton>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Producto } from "@/content/products";
+import LogoArco from "./LogoArco";
 
 export default function ProductCard({ producto }: { producto: Producto }) {
   return (
@@ -15,6 +16,10 @@ export default function ProductCard({ producto }: { producto: Producto }) {
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-contain p-3 transition-transform duration-300 group-hover:scale-[1.04]"
+        />
+        <LogoArco
+          className="absolute top-3 left-3 h-4 w-auto opacity-70"
+          sizes="70px"
         />
       </div>
 

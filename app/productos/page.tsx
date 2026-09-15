@@ -3,6 +3,7 @@ import { lineas, productosPorLinea } from "@/content/products";
 import { Seccion } from "@/components/ui";
 import ProductCard from "@/components/ProductCard";
 import CtaFinal from "@/components/CtaFinal";
+import LogoArco from "@/components/LogoArco";
 
 export const metadata: Metadata = {
   title: "Productos",
@@ -19,7 +20,13 @@ export default function Productos() {
           <p className="text-xs font-semibold tracking-[0.14em] text-hielo-400 uppercase">
             Catálogo
           </p>
-          <h1 className="mt-3 max-w-3xl text-4xl font-extrabold tracking-tight text-balance text-white sm:text-5xl">
+          <LogoArco
+            className="mt-5 h-auto w-full max-w-[280px]"
+            invertido
+            sizes="280px"
+            priority
+          />
+          <h1 className="mt-6 max-w-3xl text-4xl font-extrabold tracking-tight text-balance text-white sm:text-5xl">
             Aire acondicionado ARCO para transporte de pasajeros
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-marca-200">
